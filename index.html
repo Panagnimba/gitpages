@@ -1,31 +1,35 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>Fetch and Save Image</title>
   </head>
   <body>
-    <button id="download-btn">Download Image J</button>
+    <button id="download-btn">Download Image ze</button>
     <script>
       const url = "https://example.com/image.jpg"; // Replace with the URL of the image you want to download
       const filename = "image.jpg"; // Replace with the filename you want to save the image as
 
       function downloadImage() {
-        fetch("https://ik.imagekit.io/ri5uo3gdw/Commandes/2023-03-20T20h30/ticket_jV-_3QXlm.png")
-          .then((response) => response.blob())
-          .then((blob) => {
-            const a = document.createElement("a");
-            const url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://ik.imagekit.io/ri5uo3gdw/Commandes/2023-03-20T20h30/ticket_jV-_3QXlm.png", true);
+        xhr.responseType = "arraybuffer";
+        xhr.onload = function () {
+          if (this.status === 200) {
+            const blob = new Blob([this.response], { type: "image/jpeg" });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(link.href);
             console.log("Image downloaded successfully!");
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+          } else {
+            console.error("Failed to download image");
+          }
+        };
+        xhr.send();
       }
 
       const downloadBtn = document.getElementById("download-btn");
