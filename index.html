@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fetch Image</title>
+  </head>
+  <body>
+    <img id="image" src="#" alt="Fetched Image" />
+    <script>
+      const url = "https://ik.imagekit.io/ri5uo3gdw/Commandes/2023-03-20T20h30/ticket_jV-_3QXlm.png"; // Replace with the URL of the image you want to fetch
+      const img = document.getElementById("image");
+
+      fetch(url)
+        .then((response) => {
+          return response.blob(); // Convert the response to a blob
+        })
+        .then((blob) => {
+          img.src = URL.createObjectURL(blob); // Set the image source to the blob URL
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    </script>
+  </body>
+</html>
